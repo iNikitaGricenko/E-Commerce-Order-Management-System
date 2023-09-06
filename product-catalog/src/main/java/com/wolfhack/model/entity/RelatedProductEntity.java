@@ -1,13 +1,11 @@
 package com.wolfhack.model.entity;
 
-public class RatingsEntity {
+public class RelatedProductEntity {
 
 	private Long id;
 
-	private Long accountId;
-
 	private Long productId;
 
-	private int rating;
+	private Long relatedProductId;
 
 }

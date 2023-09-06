@@ -1,5 +1,6 @@
 package com.wolfhack.model.entity;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class ProductEntity {
@@ -10,10 +11,14 @@ public class ProductEntity {
 
 	private String description;
 
-	private List<String> images;
+	private double unitPrice;
 
-	private boolean availability;
+	private Long categoryId;
 
-	private List<ProductSpecificationEntity> productSpecifications;
+	private double stockQuantity;
+
+	private LocalDate createdDate;
+
+	private LocalDate updatedDate;
 
 }
