@@ -33,9 +33,9 @@ public class SecurityConfig {
 				.authenticationManager(authenticationManager)
 				.securityContextRepository(securityContextRepository)
 				.authorizeExchange()
-				.pathMatchers("/authorization-server/login").permitAll()
-				.pathMatchers("/authorization-server/jwt/validate").permitAll()
-				.pathMatchers("/authorization-server/register").permitAll()
+				.pathMatchers("/authorization/login").permitAll()
+				.pathMatchers("/authorization/jwt/validate").permitAll()
+				.pathMatchers("/authorization/register").permitAll()
 				.anyExchange().authenticated()
 				.and().build();
 	}
