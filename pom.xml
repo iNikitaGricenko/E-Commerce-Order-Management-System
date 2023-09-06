@@ -20,14 +20,11 @@
         <module>shopping-cart</module>
         <module>order-processing</module>
         <module>inventory-management</module>
-        <module>payment-gateway-integration</module>
         <module>account-management</module>
-        <module>search</module>
         <module>google-notification</module>
         <module>email-notification</module>
         <module>analytics</module>
-        <module>order-queue</module>
-        <module>payment-gateway</module>
+        <module>payment-processing</module>
         <module>security</module>
         <module>discovery</module>
     </modules>
