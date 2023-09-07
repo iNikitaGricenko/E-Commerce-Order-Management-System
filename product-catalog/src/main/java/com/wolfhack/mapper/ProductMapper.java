@@ -2,6 +2,7 @@ package com.wolfhack.mapper;
 
 import com.wolfhack.model.domain.Product;
 import com.wolfhack.model.dto.ProductCreationDTO;
+import com.wolfhack.model.dto.ProductFullResponseDTO;
 import com.wolfhack.model.dto.ProductResponseDTO;
 import com.wolfhack.model.entity.ProductEntity;
 import org.mapstruct.*;
@@ -16,10 +17,11 @@ public interface ProductMapper {
 
 	ProductResponseDTO toResponse(Product product);
 
+	ProductFullResponseDTO toFullResponse(Product product);
+
 	@BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 	ProductEntity partialUpdate(Product from, @MappingTarget ProductEntity to);
 
 	@BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.SET_TO_NULL)
 	ProductEntity update(Product from, @MappingTarget ProductEntity to);
-
 }

@@ -1,6 +1,7 @@
 package com.wolfhack.mapper;
 
 import com.wolfhack.model.domain.ProductInventory;
+import com.wolfhack.model.dto.ProductInventoryResponseDTO;
 import com.wolfhack.model.entity.ProductInventoryEntity;
 import org.mapstruct.*;
 
@@ -9,6 +10,8 @@ public interface ProductInventoryMapper {
 	ProductInventoryEntity toEntity(ProductInventory productInventory);
 
 	ProductInventory toModel(ProductInventoryEntity productInventoryEntity);
+
+	ProductInventoryResponseDTO toResponse(ProductInventory productInventory);
 
 	@BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 	ProductInventoryEntity partialUpdate(ProductInventory from, @MappingTarget ProductInventoryEntity to);

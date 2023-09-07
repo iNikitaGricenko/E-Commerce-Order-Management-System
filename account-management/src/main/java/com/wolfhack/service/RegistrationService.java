@@ -27,7 +27,8 @@ public class RegistrationService {
 			return userId;
 		} finally {
 			UserRegisteredNotificationDTO notificationDTO = new UserRegisteredNotificationDTO(
-					user.getEmail(), user.getFirstName(), user.getLastName(), user.getBirthDate(), user.getAddress());
+					user.getId(), user.getEmail(), user.getFirstName(),
+					user.getLastName(), user.getBirthDate(), user.getAddress());
 
 			notificationSender.sendRegistration(notificationDTO);
 		}

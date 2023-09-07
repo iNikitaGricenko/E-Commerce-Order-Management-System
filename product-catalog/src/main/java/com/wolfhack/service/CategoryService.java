@@ -27,4 +27,7 @@ public class CategoryService {
 		categoryDatabaseAdapter.delete(categoryId);
 	}
 
+	public Category get(Long categoryId) {
+		return categoryDatabaseAdapter.getById(categoryId);
+	}
 }

@@ -11,6 +11,8 @@ import java.time.LocalDate;
 @Value
 public class UserRegisteredNotificationDTO implements Serializable {
 
+	Long id;
+
 	String email;
 
 	String firstName;

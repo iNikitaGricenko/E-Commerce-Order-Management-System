@@ -1,9 +1,11 @@
 package com.wolfhack.controller;
 
 import com.wolfhack.mapper.ProductMapper;
+import com.wolfhack.model.domain.Category;
 import com.wolfhack.model.domain.Product;
 import com.wolfhack.model.dto.ProductCreationDTO;
-import com.wolfhack.model.dto.ProductResponseDTO;
+import com.wolfhack.model.dto.ProductFullResponseDTO;
+import com.wolfhack.service.CategoryService;
 import com.wolfhack.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ import java.util.List;
 public class ProductController {
 
 	private final ProductService productService;
+	private final CategoryService categoryService;
 	private final ProductMapper productMapper;
 
 	@PostMapping
@@ -28,9 +31,16 @@ public class ProductController {
 	}
 
 	@GetMapping("/{id}")
-	public ProductResponseDTO get(@PathVariable Long id) {
+	public ProductFullResponseDTO get(@PathVariable Long id) {
 		Product product = productService.get(id);
-		return productMapper.toResponse(product);
+
+		ProductFullResponseDTO response = productMapper.toFullResponse(product);
+
+		Category category = categoryService.get(product.getCategoryId());
+		response.setCategoryId(category.getId());
+		response.setCategoryName(category.getName());
+
+		return response;
 	}
 
 	@PostMapping("/{productId}/{categoryId}")

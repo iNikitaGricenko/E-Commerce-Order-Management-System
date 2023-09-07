@@ -9,7 +9,7 @@ import lombok.Value;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-@Value
+@Data
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class ProductResponseDTO implements Serializable, DomainModel {
 
