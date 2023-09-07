@@ -1,5 +1,6 @@
 package com.wolfhack.config;
 
+import com.wolfhack.model.ProductAddedDTO;
 import com.wolfhack.model.UserRegisteredNotificationDTO;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -24,6 +25,18 @@ public class KafkaConsumerConfig {
 	public ConsumerFactory<String, UserRegisteredNotificationDTO> userRegisteredConsumerFactory() {
 		Map<String, Object> properties = getDefaultConsumerFactoryProperties();
 		return new DefaultKafkaConsumerFactory<>(properties, new StringDeserializer(), new JsonDeserializer<>(UserRegisteredNotificationDTO.class));
+	}
+
+	@Bean
+	public ConsumerFactory<String, ProductAddedDTO> productAddedConsumerFactory() {
+		Map<String, Object> properties = getDefaultConsumerFactoryProperties();
+		return new DefaultKafkaConsumerFactory<>(properties, new StringDeserializer(), new JsonDeserializer<>(ProductAddedDTO.class));
+	}
+
+	@Bean
+	public ConsumerFactory<String, Long> productRemovedConsumerFactory() {
+		Map<String, Object> properties = getDefaultConsumerFactoryProperties();
+		return new DefaultKafkaConsumerFactory<>(properties, new StringDeserializer(), new JsonDeserializer<>(Long.class));
 	}
 
 	private Map<String, Object> getDefaultConsumerFactoryProperties() {

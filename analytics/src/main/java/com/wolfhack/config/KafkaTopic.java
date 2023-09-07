@@ -31,6 +31,20 @@ public class KafkaTopic {
 	}
 
 	@Bean
+	public NewTopic productAddedTopic(Map<String, KafkaTopics> kafkaTopics) {
+		final String topic = "product-added";
+		kafkaTopics.put("added", new KafkaTopics(topic));
+		return TopicBuilder.name(topic).build();
+	}
+
+	@Bean
+	public NewTopic productRemovedTopic(Map<String, KafkaTopics> kafkaTopics) {
+		final String topic = "product-removed";
+		kafkaTopics.put("removed", new KafkaTopics(topic));
+		return TopicBuilder.name(topic).build();
+	}
+
+	@Bean
 	public Map<String, KafkaTopics> kafkaTopics() {
 		return Map.of("default", new KafkaTopics("default"));
 	}
