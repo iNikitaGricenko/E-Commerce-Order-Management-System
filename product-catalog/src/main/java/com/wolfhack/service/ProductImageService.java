@@ -23,7 +23,7 @@ public class ProductImageService {
 		return productImageDatabaseAdapter.save(productImage);
 	}
 
-	private List<ProductImage> getByProductId(Long productId) {
+	public List<ProductImage> getByProductId(Long productId) {
 		if (!productDatabaseAdapter.exists(productId)) {
 			throw new RuntimeException("Product not found");
 		}

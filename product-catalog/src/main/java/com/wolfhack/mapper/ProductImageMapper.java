@@ -2,6 +2,7 @@ package com.wolfhack.mapper;
 
 import com.wolfhack.model.domain.ProductImage;
 import com.wolfhack.model.dto.ProductImageCreationDTO;
+import com.wolfhack.model.dto.ProductImageResponseDTO;
 import com.wolfhack.model.entity.ProductImageEntity;
 import org.mapstruct.*;
 
@@ -12,6 +13,8 @@ public interface ProductImageMapper {
 	ProductImage toModel(ProductImageEntity productImageEntity);
 
 	ProductImage toModel(ProductImageCreationDTO productImageCreationDTO);
+
+	ProductImageResponseDTO toResponse(ProductImage productImage);
 
 	@BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 	ProductImageEntity partialUpdate(ProductImage from, @MappingTarget ProductImageEntity to);

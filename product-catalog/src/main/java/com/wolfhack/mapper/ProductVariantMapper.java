@@ -2,6 +2,7 @@ package com.wolfhack.mapper;
 
 import com.wolfhack.model.domain.ProductVariant;
 import com.wolfhack.model.dto.ProductVariantCreationDTO;
+import com.wolfhack.model.dto.ProductVariantResponseDTO;
 import com.wolfhack.model.entity.ProductVariantEntity;
 import org.mapstruct.*;
 
@@ -15,7 +16,9 @@ public interface ProductVariantMapper {
 	@Mapping(source = "price", target = "variantPrice")
 	@Mapping(source = "description", target = "variantDescription")
 	@Mapping(source = "name", target = "variantName")
-	ProductVariantEntity toModel(ProductVariantCreationDTO productVariantCreationDTO);
+	ProductVariant toModel(ProductVariantCreationDTO productVariantCreationDTO);
+
+	ProductVariantResponseDTO toResponse(ProductVariant productVariant);
 
 	@BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 	ProductVariantEntity partialUpdate(ProductVariant from, @MappingTarget ProductVariantEntity to);

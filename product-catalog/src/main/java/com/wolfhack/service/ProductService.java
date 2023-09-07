@@ -1,8 +1,12 @@
 package com.wolfhack.service;
 
-import com.wolfhack.adapter.database.*;
+import com.wolfhack.adapter.database.CategoryDatabaseAdapter;
+import com.wolfhack.adapter.database.ProductDatabaseAdapter;
+import com.wolfhack.adapter.database.RelatedProductDatabaseAdapter;
 import com.wolfhack.config.KafkaTopics;
-import com.wolfhack.model.domain.*;
+import com.wolfhack.model.domain.EventLog;
+import com.wolfhack.model.domain.Product;
+import com.wolfhack.model.domain.RelatedProduct;
 import com.wolfhack.model.dto.ProductAddedDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -17,9 +21,6 @@ import java.util.Map;
 public class ProductService {
 
 	private final ProductDatabaseAdapter productDatabaseAdapter;
-	private final ProductImageDatabaseAdapter productImageDatabaseAdapter;
-	private final ProductReviewDatabaseAdapter productReviewDatabaseAdapter;
-	private final ProductVariantDatabaseAdapter productVariantDatabaseAdapter;
 	private final RelatedProductDatabaseAdapter relatedProductDatabaseAdapter;
 
 	private final CategoryDatabaseAdapter categoryDatabaseAdapter;
