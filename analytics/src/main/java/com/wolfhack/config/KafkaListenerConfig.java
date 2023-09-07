@@ -10,7 +10,7 @@ import org.springframework.kafka.core.ConsumerFactory;
 public class KafkaListenerConfig {
 
 	@Bean
-	public ConcurrentKafkaListenerContainerFactory<String, UserRegisteredNotificationDTO> userRegisterKafkaListenerContainerFactory(
+	public ConcurrentKafkaListenerContainerFactory<String, UserRegisteredNotificationDTO> userRegisterListenerContainerFactory(
 			ConsumerFactory<String, UserRegisteredNotificationDTO> consumerFactory) {
 		ConcurrentKafkaListenerContainerFactory<String, UserRegisteredNotificationDTO> factory = new ConcurrentKafkaListenerContainerFactory<>();
 		factory.setConsumerFactory(consumerFactory);

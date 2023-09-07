@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class KafkaListeners {
 
-	@KafkaListener(topics = "user-register", groupId = "group-id", containerFactory = "userRegisterKafkaListenerContainerFactory")
+	@KafkaListener(topics = "user-register", groupId = "group-id", containerFactory = "userRegisterListenerContainerFactory")
 	public void listenUserRegistration(UserRegisteredNotificationDTO message) {
 
 	}

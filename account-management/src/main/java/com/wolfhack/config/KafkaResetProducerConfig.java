@@ -25,9 +25,7 @@ public class KafkaResetProducerConfig {
 	@Bean
 	public NewTopic orderTopic(Map<String, KafkaTopics> kafkaTopics) {
 		final String topic = "user-reset";
-
 		kafkaTopics.put("reset", new KafkaTopics(topic));
-
 		return TopicBuilder.name(topic).build();
 	}
 

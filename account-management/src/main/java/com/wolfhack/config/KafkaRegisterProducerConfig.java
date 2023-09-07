@@ -25,9 +25,7 @@ public class KafkaRegisterProducerConfig {
 	@Bean
 	public NewTopic orderTopic(Map<String, KafkaTopics> kafkaTopics) {
 		final String topic = "user-register";
-
 		kafkaTopics.put("register", new KafkaTopics(topic));
-
 		return TopicBuilder.name(topic).build();
 	}
 

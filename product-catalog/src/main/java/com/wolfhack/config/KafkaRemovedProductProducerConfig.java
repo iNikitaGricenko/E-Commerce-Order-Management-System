@@ -25,9 +25,7 @@ public class KafkaRemovedProductProducerConfig {
 	@Bean
 	public NewTopic orderTopic(Map<String, KafkaTopics> kafkaTopics) {
 		final String topic = "product-removed";
-
 		kafkaTopics.put("removed", new KafkaTopics(topic));
-
 		return TopicBuilder.name(topic).build();
 	}
 

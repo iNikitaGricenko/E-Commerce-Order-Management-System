@@ -25,9 +25,7 @@ public class KafkaAddedProductProducerConfig {
 	@Bean
 	public NewTopic orderTopic(Map<String, KafkaTopics> kafkaTopics) {
 		final String topic = "product-added";
-
 		kafkaTopics.put("added", new KafkaTopics(topic));
-
 		return TopicBuilder.name(topic).build();
 	}
 

@@ -24,9 +24,23 @@ public class KafkaTopic {
 	}
 
 	@Bean
-	public NewTopic userRegisterTopic(Map<String, KafkaTopics> kafkaTopics) {
-		final String topic = "user-register";
-		kafkaTopics.put("register", new KafkaTopics(topic));
+	public NewTopic productAddedTopic(Map<String, KafkaTopics> kafkaTopics) {
+		final String topic = "product-added";
+		kafkaTopics.put("added", new KafkaTopics(topic));
+		return TopicBuilder.name(topic).build();
+	}
+
+	@Bean
+	public NewTopic productVariantAddedTopic(Map<String, KafkaTopics> kafkaTopics) {
+		final String topic = "product-variant-added";
+		kafkaTopics.put("variant-added", new KafkaTopics(topic));
+		return TopicBuilder.name(topic).build();
+	}
+
+	@Bean
+	public NewTopic productRemovedTopic(Map<String, KafkaTopics> kafkaTopics) {
+		final String topic = "product-removed";
+		kafkaTopics.put("removed", new KafkaTopics(topic));
 		return TopicBuilder.name(topic).build();
 	}
 
