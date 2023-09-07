@@ -4,6 +4,7 @@ import com.wolfhack.cloud.exception.UnauthorizedException;
 import com.wolfhack.cloud.model.User;
 import com.wolfhack.cloud.model.dto.UserLogin;
 import com.wolfhack.cloud.model.dto.UserRegistration;
+import com.wolfhack.cloud.model.dto.UserTokenResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -51,5 +52,25 @@ public class AccountManagement implements AccountManagementClient {
 				.retrieve()
 				.onStatus(HttpStatus.FORBIDDEN::equals, response -> Mono.error(new UnauthorizedException("Token is not valid")))
 				.bodyToMono(boolean.class);
+	}
+
+	@Override
+	public Mono<UserTokenResponseDTO> findByToken(String token) {
+		return webClient.build()
+				.get()
+				.uri(uriBuilder -> uriBuilder.host("account-management").path("/profile/login/"+token).build())
+				.retrieve()
+				.onStatus(HttpStatus.NOT_FOUND::equals, response -> Mono.error(new UnauthorizedException("Token is not valid")))
+				.bodyToMono(UserTokenResponseDTO.class);
+	}
+
+	@Override
+	public Mono<User> findById(Long id) {
+		return webClient.build()
+				.get()
+				.uri(uriBuilder -> uriBuilder.host("account-management").path("/profile/"+id).build())
+				.retrieve()
+				.bodyToMono(User.class)
+				.onErrorStop();
 	}
 }

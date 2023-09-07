@@ -7,7 +7,7 @@ import com.wolfhack.model.domain.UserToken;
 import com.wolfhack.model.dto.UserLoginDTO;
 import com.wolfhack.model.dto.UserProfileEditDTO;
 import com.wolfhack.model.dto.UserTokenResponseDTO;
-import com.wolfhack.model.entity.UserLoginResponseDTO;
+import com.wolfhack.model.dto.UserLoginResponseDTO;
 import com.wolfhack.service.ProfileManagement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +33,7 @@ public class ProfileController {
 		profileManagement.login(userLoginDTO.getUsername(), userLoginDTO.getPassword());
 	}
 
-	@PostMapping("/login/{token}")
+	@GetMapping("/login/{token}")
 	public UserTokenResponseDTO login(@PathVariable String token) {
 		UserToken login = profileManagement.login(token);
 		return userTokenMapper.toResponse(login);
@@ -47,6 +47,12 @@ public class ProfileController {
 	@GetMapping("/{username}")
 	public UserLoginResponseDTO getUser(@PathVariable String username) {
 		User user = profileManagement.getByUsername(username);
+		return userMapper.toLoginResponse(user);
+	}
+
+	@GetMapping("/{userId}")
+	public UserLoginResponseDTO getUser(@PathVariable Long userId) {
+		User user = profileManagement.get(userId);
 		return userMapper.toLoginResponse(user);
 	}
 

@@ -57,4 +57,8 @@ public class ProfileManagement {
 	public User getByUsername(String username) {
 		return userDatabaseGateway.getByUsername(username);
 	}
+
+	public User get(Long userId) {
+		return userDatabaseGateway.getById(userId);
+	}
 }

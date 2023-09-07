@@ -5,7 +5,7 @@ import com.wolfhack.model.dto.UserLoginDTO;
 import com.wolfhack.model.dto.UserRegisterDTO;
 import com.wolfhack.model.entity.UserEntity;
 import com.wolfhack.model.dto.UserProfileEditDTO;
-import com.wolfhack.model.entity.UserLoginResponseDTO;
+import com.wolfhack.model.dto.UserLoginResponseDTO;
 import org.mapstruct.*;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
@@ -23,7 +23,7 @@ public interface UserMapper {
 	UserLoginResponseDTO toLoginResponse(User user);
 
 	@BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-	UserEntity partialUpdate(com.wolfhack.model.entity.UserLoginResponseDTO userLoginResponseDTO, @MappingTarget UserEntity userEntity);
+	UserEntity partialUpdate(UserLoginResponseDTO userLoginResponseDTO, @MappingTarget UserEntity userEntity);
 
 	@BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 	UserEntity partialUpdate(User from, @MappingTarget UserEntity to);
