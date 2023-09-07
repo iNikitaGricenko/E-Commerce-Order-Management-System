@@ -1,6 +1,7 @@
 package com.wolfhack.service;
 
 import com.wolfhack.adapter.database.CategoryDatabaseAdapter;
+import com.wolfhack.adapter.database.EventLogDatabaseAdapter;
 import com.wolfhack.adapter.database.ProductDatabaseAdapter;
 import com.wolfhack.adapter.database.RelatedProductDatabaseAdapter;
 import com.wolfhack.config.KafkaTopics;
@@ -23,6 +24,7 @@ public class ProductService {
 
 	private final ProductDatabaseAdapter productDatabaseAdapter;
 	private final RelatedProductDatabaseAdapter relatedProductDatabaseAdapter;
+	private final EventLogDatabaseAdapter eventLogDatabaseAdapter;
 
 	private final CategoryDatabaseAdapter categoryDatabaseAdapter;
 
@@ -76,6 +78,8 @@ public class ProductService {
 		EventLog eventLog = new EventLog();
 		eventLog.productRemoved(productId);
 
+		eventLogDatabaseAdapter.save(eventLog);
+
 		kafkaRemovedTemplate.send(kafkaTopics.get("removed").topic(), productId);
 	}
 
@@ -83,6 +87,8 @@ public class ProductService {
 	protected void addToInventory(Product product, Long productId) {
 		EventLog eventLog = new EventLog();
 		eventLog.productCreated(productId, product.getStockQuantity());
+
+		eventLogDatabaseAdapter.save(eventLog);
 
 		ProductAddedDTO data = new ProductAddedDTO(productId, product.getName(), product.getStockQuantity());
 		kafkaAddedTemplate.send(kafkaTopics.get("added").topic(), data);

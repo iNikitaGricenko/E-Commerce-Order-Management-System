@@ -1,5 +1,6 @@
 package com.wolfhack.service;
 
+import com.wolfhack.adapter.database.EventLogDatabaseAdapter;
 import com.wolfhack.adapter.database.ProductDatabaseAdapter;
 import com.wolfhack.adapter.database.ProductVariantDatabaseAdapter;
 import com.wolfhack.config.KafkaTopics;
@@ -22,6 +23,7 @@ public class ProductVariantService {
 
 	private final ProductDatabaseAdapter productDatabaseAdapter;
 	private final ProductVariantDatabaseAdapter productVariantDatabaseAdapter;
+	private final EventLogDatabaseAdapter eventLogDatabaseAdapter;
 
 	private final Map<String, KafkaTopics> kafkaTopics;
 	private final KafkaTemplate<String, ProductVariantAddedDTO> kafkaVariantAddedTemplate;
@@ -56,6 +58,8 @@ public class ProductVariantService {
 
 		EventLog eventLog = new EventLog();
 		eventLog.productVariantCreated(productId, product.getStockQuantity());
+
+		eventLogDatabaseAdapter.save(eventLog);
 
 		ProductVariantAddedDTO data = new ProductVariantAddedDTO(productVariantId, productId, product.getName(), product.getStockQuantity());
 		kafkaVariantAddedTemplate.send(kafkaTopics.get("variant-added").topic(), data);
