@@ -1,6 +1,7 @@
 package com.wolfhack.persistence;
 
 import com.wolfhack.adapter.database.ProductImageDatabaseAdapter;
+import com.wolfhack.exception.NotFoundException;
 import com.wolfhack.mapper.ProductImageMapper;
 import com.wolfhack.model.domain.ProductImage;
 import com.wolfhack.model.entity.ProductImageEntity;
@@ -31,7 +32,7 @@ public class ProductImageDatabaseGateway implements ProductImageDatabaseAdapter 
 	public Long partialUpdate(Long id, ProductImage model) {
 		ProductImageEntity updated = productImageRepository.findById(id)
 				.map(categoryEntity -> productImageMapper.partialUpdate(model, categoryEntity))
-				.orElseThrow();
+				.orElseThrow(NotFoundException::new);
 
 		return productImageRepository.save(updated).getId();
 	}
@@ -39,7 +40,7 @@ public class ProductImageDatabaseGateway implements ProductImageDatabaseAdapter 
 	@Override
 	public Long update(Long id, ProductImage model) {
 		if (!exists(id)) {
-			throw new RuntimeException("Not found");
+			throw new NotFoundException("Product does not exist");
 		}
 		ProductImageEntity entity = productImageMapper.toEntity(model);
 		productImageMapper.update(model, entity);
@@ -48,7 +49,7 @@ public class ProductImageDatabaseGateway implements ProductImageDatabaseAdapter 
 
 	@Override
 	public ProductImage getById(Long id) {
-		return productImageRepository.findById(id).map(productImageMapper::toModel).orElseThrow();
+		return productImageRepository.findById(id).map(productImageMapper::toModel).orElseThrow(NotFoundException::new);
 	}
 
 	@Override

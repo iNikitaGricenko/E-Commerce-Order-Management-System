@@ -1,6 +1,7 @@
 package com.wolfhack.persistence;
 
 import com.wolfhack.adapter.database.UserDatabaseAdapter;
+import com.wolfhack.exception.NotFoundException;
 import com.wolfhack.mapper.UserMapper;
 import com.wolfhack.model.domain.User;
 import com.wolfhack.model.entity.UserEntity;
@@ -39,7 +40,7 @@ public class UserDatabaseGateway implements UserDatabaseAdapter {
 	@Override
 	public Long update(Long id, User model) {
 		if (!exists(id)) {
-			throw new RuntimeException("Not found");
+			throw new NotFoundException("User does not exist");
 		}
 		UserEntity entity = userMapper.toEntity(model);
 		userMapper.update(model, entity);
@@ -48,7 +49,7 @@ public class UserDatabaseGateway implements UserDatabaseAdapter {
 
 	@Override
 	public User getById(Long id) {
-		return userRepository.findById(id).map(userMapper::toModel).orElseThrow();
+		return userRepository.findById(id).map(userMapper::toModel).orElseThrow(NotFoundException::new);
 	}
 
 	@Override
@@ -79,11 +80,11 @@ public class UserDatabaseGateway implements UserDatabaseAdapter {
 
 	@Override
 	public User getByUsername(String username) {
-		return userRepository.findByUsername(username).map(userMapper::toModel).orElseThrow();
+		return userRepository.findByUsername(username).map(userMapper::toModel).orElseThrow(NotFoundException::new);
 	}
 
 	@Override
 	public User getByEmail(String email) {
-		return userRepository.findByEmail(email).map(userMapper::toModel).orElseThrow();
+		return userRepository.findByEmail(email).map(userMapper::toModel).orElseThrow(NotFoundException::new);
 	}
 }

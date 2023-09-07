@@ -1,6 +1,7 @@
 package com.wolfhack.persistence;
 
 import com.wolfhack.adapter.database.RelatedProductDatabaseAdapter;
+import com.wolfhack.exception.NotFoundException;
 import com.wolfhack.mapper.RelatedProductMapper;
 import com.wolfhack.model.domain.RelatedProduct;
 import com.wolfhack.model.entity.RelatedProductEntity;
@@ -31,7 +32,7 @@ public class RelatedProductDatabaseGateway implements RelatedProductDatabaseAdap
 	public Long partialUpdate(Long id, RelatedProduct model) {
 		RelatedProductEntity updated = relatedProductRepository.findById(id)
 				.map(categoryEntity -> relatedProductMapper.partialUpdate(model, categoryEntity))
-				.orElseThrow();
+				.orElseThrow(NotFoundException::new);
 
 		return relatedProductRepository.save(updated).getId();
 	}
@@ -39,7 +40,7 @@ public class RelatedProductDatabaseGateway implements RelatedProductDatabaseAdap
 	@Override
 	public Long update(Long id, RelatedProduct model) {
 		if (!exists(id)) {
-			throw new RuntimeException("Not found");
+			throw new NotFoundException("Product does not exist");
 		}
 		RelatedProductEntity entity = relatedProductMapper.toEntity(model);
 		relatedProductMapper.update(model, entity);
@@ -48,7 +49,7 @@ public class RelatedProductDatabaseGateway implements RelatedProductDatabaseAdap
 
 	@Override
 	public RelatedProduct getById(Long id) {
-		return relatedProductRepository.findById(id).map(relatedProductMapper::toModel).orElseThrow();
+		return relatedProductRepository.findById(id).map(relatedProductMapper::toModel).orElseThrow(NotFoundException::new);
 	}
 
 	@Override

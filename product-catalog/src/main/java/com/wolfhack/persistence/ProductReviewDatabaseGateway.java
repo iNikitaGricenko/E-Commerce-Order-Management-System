@@ -1,6 +1,7 @@
 package com.wolfhack.persistence;
 
 import com.wolfhack.adapter.database.ProductReviewDatabaseAdapter;
+import com.wolfhack.exception.NotFoundException;
 import com.wolfhack.mapper.ProductReviewMapper;
 import com.wolfhack.model.domain.ProductReview;
 import com.wolfhack.model.entity.ProductReviewEntity;
@@ -31,7 +32,7 @@ public class ProductReviewDatabaseGateway implements ProductReviewDatabaseAdapte
 	public Long partialUpdate(Long id, ProductReview model) {
 		ProductReviewEntity updated = productReviewRepository.findById(id)
 				.map(categoryEntity -> productReviewMapper.partialUpdate(model, categoryEntity))
-				.orElseThrow();
+				.orElseThrow(NotFoundException::new);
 
 		return productReviewRepository.save(updated).getId();
 	}
@@ -39,7 +40,7 @@ public class ProductReviewDatabaseGateway implements ProductReviewDatabaseAdapte
 	@Override
 	public Long update(Long id, ProductReview model) {
 		if (!exists(id)) {
-			throw new RuntimeException("Not found");
+			throw new NotFoundException("Product does not exist");
 		}
 		ProductReviewEntity entity = productReviewMapper.toEntity(model);
 		productReviewMapper.update(model, entity);
@@ -48,7 +49,7 @@ public class ProductReviewDatabaseGateway implements ProductReviewDatabaseAdapte
 
 	@Override
 	public ProductReview getById(Long id) {
-		return productReviewRepository.findById(id).map(productReviewMapper::toModel).orElseThrow();
+		return productReviewRepository.findById(id).map(productReviewMapper::toModel).orElseThrow(NotFoundException::new);
 	}
 
 	@Override

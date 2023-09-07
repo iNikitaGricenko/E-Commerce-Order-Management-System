@@ -4,6 +4,7 @@ import com.wolfhack.adapter.database.CategoryDatabaseAdapter;
 import com.wolfhack.adapter.database.ProductDatabaseAdapter;
 import com.wolfhack.adapter.database.RelatedProductDatabaseAdapter;
 import com.wolfhack.config.KafkaTopics;
+import com.wolfhack.exception.NotFoundException;
 import com.wolfhack.model.domain.EventLog;
 import com.wolfhack.model.domain.Product;
 import com.wolfhack.model.domain.RelatedProduct;
@@ -45,10 +46,10 @@ public class ProductService {
 
 	public void assignCategory(Long productId, Long categoryId) {
 		if (!productDatabaseAdapter.exists(productId)) {
-			throw new RuntimeException("Product not found");
+			throw new NotFoundException("Product does not exist");
 		}
 		if (!categoryDatabaseAdapter.exists(categoryId)) {
-			throw new RuntimeException("Category not found");
+			throw new NotFoundException("Category does not exist");
 		}
 
 		Product product = new Product();
@@ -59,7 +60,7 @@ public class ProductService {
 
 	public void addRelatedProduct(Long productId, List<Long> relatedProductIds) {
 		if (!productDatabaseAdapter.exists(productId)) {
-			throw new RuntimeException("Product not found");
+			throw new NotFoundException("Product does not exist");
 		}
 
 		relatedProductIds.stream().filter(productDatabaseAdapter::exists).map(id -> {

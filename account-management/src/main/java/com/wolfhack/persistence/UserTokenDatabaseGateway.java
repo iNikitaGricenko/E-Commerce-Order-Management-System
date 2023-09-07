@@ -1,6 +1,7 @@
 package com.wolfhack.persistence;
 
 import com.wolfhack.adapter.database.UserTokenDatabaseAdapter;
+import com.wolfhack.exception.NotFoundException;
 import com.wolfhack.mapper.UserTokenMapper;
 import com.wolfhack.model.domain.UserToken;
 import com.wolfhack.model.entity.UserTokenEntity;
@@ -40,7 +41,7 @@ public class UserTokenDatabaseGateway implements UserTokenDatabaseAdapter {
 	@Override
 	public Long update(Long id, UserToken model) {
 		if (!exists(id)) {
-			throw new RuntimeException("Not found");
+			throw new NotFoundException("User token does not exist");
 		}
 		UserTokenEntity entity = userTokenMapper.toEntity(model);
 		userTokenMapper.update(model, entity);
@@ -49,7 +50,7 @@ public class UserTokenDatabaseGateway implements UserTokenDatabaseAdapter {
 
 	@Override
 	public UserToken getById(Long id) {
-		return userTokenRepository.findById(id).map(userTokenMapper::toModel).orElseThrow();
+		return userTokenRepository.findById(id).map(userTokenMapper::toModel).orElseThrow(NotFoundException::new);
 	}
 
 	@Override
@@ -80,12 +81,12 @@ public class UserTokenDatabaseGateway implements UserTokenDatabaseAdapter {
 
 	@Override
 	public UserToken getByToken(String token) {
-		return userTokenRepository.findByToken(token).map(userTokenMapper::toModel).orElseThrow();
+		return userTokenRepository.findByToken(token).map(userTokenMapper::toModel).orElseThrow(NotFoundException::new);
 	}
 
 	@Override
 	public UserToken getByUserId(Long id) {
-		return userTokenRepository.findByUserId(id).map(userTokenMapper::toModel).orElseThrow();
+		return userTokenRepository.findByUserId(id).map(userTokenMapper::toModel).orElseThrow(NotFoundException::new);
 	}
 
 	@Override

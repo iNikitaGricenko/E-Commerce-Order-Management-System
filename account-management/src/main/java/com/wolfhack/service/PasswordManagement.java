@@ -2,6 +2,8 @@ package com.wolfhack.service;
 
 import com.wolfhack.adapter.database.PasswordResetRequestDatabaseAdapter;
 import com.wolfhack.adapter.database.UserDatabaseAdapter;
+import com.wolfhack.exception.BadRequestException;
+import com.wolfhack.exception.ForbiddenException;
 import com.wolfhack.model.domain.PasswordResetRequest;
 import com.wolfhack.model.domain.User;
 import com.wolfhack.model.dto.UserResetNotificationDTO;
@@ -35,7 +37,7 @@ public class PasswordManagement {
 		String newPassword = encoder.encode(password);
 
 		if (newPassword.equals(user.getPassword())) {
-			throw new RuntimeException("New password couldn't be same as previous one"); // Send Forbbiden exception
+			throw new BadRequestException("New password couldn't be same as previous one"); // Send Forbbiden exception
 		}
 
 		user.setPassword(newPassword);

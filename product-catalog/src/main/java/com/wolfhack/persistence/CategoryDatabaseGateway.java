@@ -1,6 +1,7 @@
 package com.wolfhack.persistence;
 
 import com.wolfhack.adapter.database.CategoryDatabaseAdapter;
+import com.wolfhack.exception.NotFoundException;
 import com.wolfhack.mapper.CategoryMapper;
 import com.wolfhack.model.domain.Category;
 import com.wolfhack.model.entity.CategoryEntity;
@@ -31,7 +32,7 @@ public class CategoryDatabaseGateway implements CategoryDatabaseAdapter {
 	public Long partialUpdate(Long id, Category model) {
 		CategoryEntity updated = categoryRepository.findById(id)
 				.map(categoryEntity -> categoryMapper.partialUpdate(model, categoryEntity))
-				.orElseThrow();
+				.orElseThrow(NotFoundException::new);
 
 		return categoryRepository.save(updated).getId();
 	}
@@ -39,7 +40,7 @@ public class CategoryDatabaseGateway implements CategoryDatabaseAdapter {
 	@Override
 	public Long update(Long id, Category model) {
 		if (!exists(id)) {
-			throw new RuntimeException("Not found");
+			throw new NotFoundException("Category does not exist");
 		}
 		CategoryEntity entity = categoryMapper.toEntity(model);
 		categoryMapper.update(model, entity);
@@ -48,7 +49,7 @@ public class CategoryDatabaseGateway implements CategoryDatabaseAdapter {
 
 	@Override
 	public Category getById(Long id) {
-		return categoryRepository.findById(id).map(categoryMapper::toModel).orElseThrow();
+		return categoryRepository.findById(id).map(categoryMapper::toModel).orElseThrow(NotFoundException::new);
 	}
 
 	@Override

@@ -2,6 +2,8 @@ package com.wolfhack.service;
 
 import com.wolfhack.adapter.database.UserDatabaseAdapter;
 import com.wolfhack.adapter.database.UserTokenDatabaseAdapter;
+import com.wolfhack.exception.ForbiddenException;
+import com.wolfhack.exception.NotFoundException;
 import com.wolfhack.model.domain.User;
 import com.wolfhack.model.domain.UserToken;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +23,7 @@ public class ProfileManagement {
 		User user = userDatabaseGateway.getByUsername(username);
 
 		if (!encoder.matches(user.getPassword(), password)) {
-			throw new RuntimeException("Invalid password"); // TODO throw Forbidden
+			throw new ForbiddenException("Invalid password"); // TODO throw Forbidden
 		}
 	}
 
@@ -47,7 +49,7 @@ public class ProfileManagement {
 
 	public void update(Long userId, User user) {
 		if (!userDatabaseGateway.exists(userId)) {
-			throw new RuntimeException("User does not exist");
+			throw new NotFoundException("User does not exist");
 		}
 		user.setPassword(encoder.encode(user.getPassword()));
 

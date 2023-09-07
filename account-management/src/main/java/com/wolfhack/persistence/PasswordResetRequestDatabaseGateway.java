@@ -1,6 +1,7 @@
 package com.wolfhack.persistence;
 
 import com.wolfhack.adapter.database.PasswordResetRequestDatabaseAdapter;
+import com.wolfhack.exception.NotFoundException;
 import com.wolfhack.mapper.PasswordResetRequestMapper;
 import com.wolfhack.model.domain.PasswordResetRequest;
 import com.wolfhack.model.entity.PasswordResetRequestEntity;
@@ -32,7 +33,7 @@ public class PasswordResetRequestDatabaseGateway implements PasswordResetRequest
 	public Long partialUpdate(Long id, PasswordResetRequest model) {
 		PasswordResetRequestEntity updated = passwordResetRequestRepository.findById(id)
 				.map(entity -> passwordResetRequestMapper.partialUpdate(model, entity))
-				.orElseThrow();
+				.orElseThrow(NotFoundException::new);
 
 		return passwordResetRequestRepository.save(updated).getId();
 	}
@@ -40,7 +41,7 @@ public class PasswordResetRequestDatabaseGateway implements PasswordResetRequest
 	@Override
 	public Long update(Long id, PasswordResetRequest model) {
 		if (!exists(id)) {
-			throw new RuntimeException("Not found");
+			throw new NotFoundException("Password reset request does not exist");
 		}
 		PasswordResetRequestEntity entity = passwordResetRequestMapper.toEntity(model);
 		passwordResetRequestMapper.update(model, entity);
@@ -51,7 +52,7 @@ public class PasswordResetRequestDatabaseGateway implements PasswordResetRequest
 	public PasswordResetRequest getById(Long id) {
 		return passwordResetRequestRepository.findById(id)
 				.map(passwordResetRequestMapper::toModel)
-				.orElseThrow();
+				.orElseThrow(NotFoundException::new);
 	}
 
 	@Override
@@ -89,13 +90,13 @@ public class PasswordResetRequestDatabaseGateway implements PasswordResetRequest
 	public PasswordResetRequest getByToken(String token) {
 		return passwordResetRequestRepository.findByResetToken(token)
 				.map(passwordResetRequestMapper::toModel)
-				.orElseThrow();
+				.orElseThrow(NotFoundException::new);
 	}
 
 	@Override
 	public PasswordResetRequest getByUserId(Long id) {
 		return passwordResetRequestRepository.findByUserId(id)
 				.map(passwordResetRequestMapper::toModel)
-				.orElseThrow();
+				.orElseThrow(NotFoundException::new);
 	}
 }

@@ -3,6 +3,7 @@ package com.wolfhack.service;
 import com.wolfhack.adapter.database.ProductDatabaseAdapter;
 import com.wolfhack.adapter.database.ProductVariantDatabaseAdapter;
 import com.wolfhack.config.KafkaTopics;
+import com.wolfhack.exception.NotFoundException;
 import com.wolfhack.model.domain.EventLog;
 import com.wolfhack.model.domain.Product;
 import com.wolfhack.model.domain.ProductVariant;
@@ -27,7 +28,7 @@ public class ProductVariantService {
 
 	public long addVariant(Long productId, ProductVariant productVariant) {
 		if (!productDatabaseAdapter.exists(productId)) {
-			throw new RuntimeException("Product not found");
+			throw new NotFoundException("Product does not exist");
 		}
 		productVariant.setProductId(productId);
 
@@ -41,7 +42,7 @@ public class ProductVariantService {
 
 	public List<ProductVariant> getByProductId(Long productId) {
 		if (!productDatabaseAdapter.exists(productId)) {
-			throw new RuntimeException("Product not found");
+			throw new NotFoundException("Product does not exist");
 		}
 
 		return productVariantDatabaseAdapter.getByProduct(productId);

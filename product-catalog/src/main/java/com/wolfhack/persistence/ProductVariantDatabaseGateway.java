@@ -1,6 +1,7 @@
 package com.wolfhack.persistence;
 
 import com.wolfhack.adapter.database.ProductVariantDatabaseAdapter;
+import com.wolfhack.exception.NotFoundException;
 import com.wolfhack.mapper.ProductVariantMapper;
 import com.wolfhack.model.domain.ProductVariant;
 import com.wolfhack.model.entity.ProductVariantEntity;
@@ -31,7 +32,7 @@ public class ProductVariantDatabaseGateway implements ProductVariantDatabaseAdap
 	public Long partialUpdate(Long id, ProductVariant model) {
 		ProductVariantEntity updated = productVariantRepository.findById(id)
 				.map(categoryEntity -> productVariantMapper.partialUpdate(model, categoryEntity))
-				.orElseThrow();
+				.orElseThrow(NotFoundException::new);
 
 		return productVariantRepository.save(updated).getId();
 	}
@@ -39,7 +40,7 @@ public class ProductVariantDatabaseGateway implements ProductVariantDatabaseAdap
 	@Override
 	public Long update(Long id, ProductVariant model) {
 		if (!exists(id)) {
-			throw new RuntimeException("Not found");
+			throw new NotFoundException("Product does not exist");
 		}
 		ProductVariantEntity entity = productVariantMapper.toEntity(model);
 		productVariantMapper.update(model, entity);
@@ -48,7 +49,7 @@ public class ProductVariantDatabaseGateway implements ProductVariantDatabaseAdap
 
 	@Override
 	public ProductVariant getById(Long id) {
-		return productVariantRepository.findById(id).map(productVariantMapper::toModel).orElseThrow();
+		return productVariantRepository.findById(id).map(productVariantMapper::toModel).orElseThrow(NotFoundException::new);
 	}
 
 	@Override

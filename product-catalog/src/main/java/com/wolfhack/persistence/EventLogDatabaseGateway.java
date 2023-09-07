@@ -1,6 +1,7 @@
 package com.wolfhack.persistence;
 
 import com.wolfhack.adapter.database.EventLogDatabaseAdapter;
+import com.wolfhack.exception.NotFoundException;
 import com.wolfhack.mapper.EventLogMapper;
 import com.wolfhack.model.domain.EventLog;
 import com.wolfhack.model.entity.EventLogEntity;
@@ -31,7 +32,7 @@ public class EventLogDatabaseGateway implements EventLogDatabaseAdapter {
 	public Long partialUpdate(Long id, EventLog model) {
 		EventLogEntity updated = eventLogRepository.findById(id)
 				.map(categoryEntity -> eventLogMapper.partialUpdate(model, categoryEntity))
-				.orElseThrow();
+				.orElseThrow(NotFoundException::new);
 
 		return eventLogRepository.save(updated).getId();
 	}
@@ -39,7 +40,7 @@ public class EventLogDatabaseGateway implements EventLogDatabaseAdapter {
 	@Override
 	public Long update(Long id, EventLog model) {
 		if (!exists(id)) {
-			throw new RuntimeException("Not found");
+			throw new NotFoundException("Event log does not exist");
 		}
 		EventLogEntity entity = eventLogMapper.toEntity(model);
 		eventLogMapper.update(model, entity);
@@ -48,7 +49,7 @@ public class EventLogDatabaseGateway implements EventLogDatabaseAdapter {
 
 	@Override
 	public EventLog getById(Long id) {
-		return eventLogRepository.findById(id).map(eventLogMapper::toModel).orElseThrow();
+		return eventLogRepository.findById(id).map(eventLogMapper::toModel).orElseThrow(NotFoundException::new);
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package com.wolfhack.service;
 
 import com.wolfhack.adapter.database.ProductDatabaseAdapter;
 import com.wolfhack.adapter.database.ProductReviewDatabaseAdapter;
+import com.wolfhack.exception.NotFoundException;
 import com.wolfhack.model.domain.ProductReview;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public class ProductReviewService {
 
 	public long addReview(Long productId, ProductReview productReview) {
 		if (!productDatabaseAdapter.exists(productId)) {
-			throw new RuntimeException("Product not found");
+			throw new NotFoundException("Product does not exist");
 		}
 		productReview.setProductId(productId);
 		productReview.setReviewDate(LocalDate.now());
@@ -28,7 +29,7 @@ public class ProductReviewService {
 
 	public List<ProductReview> getByProductId(Long productId) {
 		if (!productDatabaseAdapter.exists(productId)) {
-			throw new RuntimeException("Product not found");
+			throw new NotFoundException("Product does not exist");
 		}
 
 		return productReviewDatabaseAdapter.getAllByProduct(productId);
