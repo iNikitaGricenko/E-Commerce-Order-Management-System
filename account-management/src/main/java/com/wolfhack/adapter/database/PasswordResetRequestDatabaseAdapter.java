@@ -6,4 +6,5 @@ public interface PasswordResetRequestDatabaseAdapter extends DatabaseAdapter<Pas
 
 	PasswordResetRequest getByToken(String token);
 
+	PasswordResetRequest getByUserId(Long id);
 }

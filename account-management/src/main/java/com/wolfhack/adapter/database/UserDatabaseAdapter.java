@@ -6,4 +6,5 @@ public interface UserDatabaseAdapter extends DatabaseAdapter<User> {
 
 	User getByUsername(String username);
 
+	User getByEmail(String email);
 }

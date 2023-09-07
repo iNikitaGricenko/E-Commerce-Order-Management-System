@@ -17,10 +17,9 @@ import java.time.LocalDate;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User implements Serializable {
 	private Long id;
+	private String username;
 	private String email;
-	private String password;
-	private String firstName;
-	private String lastName;
 	private Role role;
-	private LocalDate registeredAt;
+	private String password;
+	private LocalDate lastLoginDate;
 }

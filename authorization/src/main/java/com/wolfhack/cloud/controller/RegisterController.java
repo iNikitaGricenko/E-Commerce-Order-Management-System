@@ -22,10 +22,7 @@ public class RegisterController {
 
 	@PostMapping
 	public Mono<Long> register(@RequestBody Mono<UserRegistration> userRegistration) {
-		return userService.save(userRegistration.map(register -> {
-			register.setPassword(pbkdf2Encoder.encode(register.getPassword()));
-			return register;
-		}).map(userMapper::toUser));
+		return userService.save(userRegistration);
 	}
 
 }

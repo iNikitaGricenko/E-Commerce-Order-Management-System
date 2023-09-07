@@ -14,6 +14,9 @@ public interface PasswordResetRequestMapper {
 	@BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 	PasswordResetRequestEntity partialUpdate(PasswordResetRequest from, @MappingTarget PasswordResetRequestEntity to);
 
+	@BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.SET_TO_NULL)
+	PasswordResetRequestEntity update(PasswordResetRequest from, @MappingTarget PasswordResetRequestEntity to);
+
 	@BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 	PasswordResetRequest partialUpdate(PasswordResetRequest from, @MappingTarget PasswordResetRequest to);
 

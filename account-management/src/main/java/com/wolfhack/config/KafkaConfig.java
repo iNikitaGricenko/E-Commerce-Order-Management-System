@@ -1,18 +1,16 @@
 package com.wolfhack.config;
 
 import org.apache.kafka.clients.admin.AdminClientConfig;
-import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.KafkaAdmin;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-public class UserKafkaTopic {
+public class KafkaConfig {
 
 	@Value(value = "${spring.kafka.bootstrap-servers}")
 	private String bootstrapAddress;
@@ -25,7 +23,8 @@ public class UserKafkaTopic {
 	}
 
 	@Bean
-	public NewTopic orderTopic() {
-		return TopicBuilder.name("user-register").build();
+	public Map<String, KafkaTopics> kafkaTopics() {
+		return Map.of("default", new KafkaTopics("default"));
 	}
+
 }

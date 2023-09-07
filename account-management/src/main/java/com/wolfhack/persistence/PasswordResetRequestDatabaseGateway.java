@@ -3,9 +3,11 @@ package com.wolfhack.persistence;
 import com.wolfhack.adapter.database.PasswordResetRequestDatabaseAdapter;
 import com.wolfhack.mapper.PasswordResetRequestMapper;
 import com.wolfhack.model.domain.PasswordResetRequest;
+import com.wolfhack.model.entity.PasswordResetRequestEntity;
 import com.wolfhack.repository.PasswordResetRequestRepository;
 import com.wolfhack.wrapper.DomainPage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -21,51 +23,79 @@ public class PasswordResetRequestDatabaseGateway implements PasswordResetRequest
 
 	@Override
 	public Long save(PasswordResetRequest model) {
-		return null;
+		PasswordResetRequestEntity entity = passwordResetRequestMapper.toEntity(model);
+
+		return passwordResetRequestRepository.save(entity).getId();
 	}
 
 	@Override
 	public Long partialUpdate(Long id, PasswordResetRequest model) {
-		return null;
+		PasswordResetRequestEntity updated = passwordResetRequestRepository.findById(id)
+				.map(entity -> passwordResetRequestMapper.partialUpdate(model, entity))
+				.orElseThrow();
+
+		return passwordResetRequestRepository.save(updated).getId();
 	}
 
 	@Override
 	public Long update(Long id, PasswordResetRequest model) {
-		return null;
+		if (!exists(id)) {
+			throw new RuntimeException("Not found");
+		}
+		PasswordResetRequestEntity entity = passwordResetRequestMapper.toEntity(model);
+		passwordResetRequestMapper.update(model, entity);
+		return passwordResetRequestRepository.save(entity).getId();
 	}
 
 	@Override
 	public PasswordResetRequest getById(Long id) {
-		return null;
+		return passwordResetRequestRepository.findById(id)
+				.map(passwordResetRequestMapper::toModel)
+				.orElseThrow();
 	}
 
 	@Override
 	public boolean exists(Long id) {
-		return false;
+		return passwordResetRequestRepository.existsById(id);
 	}
 
 	@Override
 	public Collection<PasswordResetRequest> getById(Collection<Long> ids) {
-		return null;
+		return passwordResetRequestRepository.findAllById(ids).stream()
+				.map(passwordResetRequestMapper::toModel)
+				.toList();
 	}
 
 	@Override
 	public List<PasswordResetRequest> getAll() {
-		return null;
+		return passwordResetRequestRepository.findAll().stream()
+				.map(passwordResetRequestMapper::toModel).toList();
 	}
 
 	@Override
 	public DomainPage<PasswordResetRequest> getPage(Pageable pageable) {
-		return null;
+		Page<PasswordResetRequest> page = passwordResetRequestRepository.findAll(pageable)
+				.map(passwordResetRequestMapper::toModel);
+
+		return new DomainPage<>(page);
 	}
 
 	@Override
 	public void delete(Long id) {
-
+		passwordResetRequestRepository.deleteById(id);
 	}
 
 	@Override
 	public PasswordResetRequest getByToken(String token) {
-		return null;
+		return passwordResetRequestRepository.findByResetToken(token)
+				.map(passwordResetRequestMapper::toModel)
+				.orElseThrow();
+	}
+
+	@Override
+	public PasswordResetRequest getByUserId(Long id) {
+		return passwordResetRequestRepository.findByUserId(id)
+				.map(passwordResetRequestMapper::toModel)
+				.orElseThrow();
 	}
 }

@@ -1,5 +1,6 @@
 package com.wolfhack.model.dto;
 
+import com.wolfhack.model.Role;
 import jakarta.validation.constraints.*;
 import lombok.Value;
 
@@ -10,7 +11,7 @@ import java.time.LocalDate;
  * DTO for {@link com.wolfhack.model.domain.User}
  */
 @Value
-public class UserRegisterDto implements Serializable {
+public class UserRegisterDTO implements Serializable {
 
 	@NotNull
 	@NotEmpty
