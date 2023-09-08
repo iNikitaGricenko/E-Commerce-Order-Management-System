@@ -22,4 +22,6 @@ public class UserRegisteredNotificationDTO implements Serializable {
 	LocalDate birthDate;
 
 	String address;
+
+	String phoneNumber;
 }

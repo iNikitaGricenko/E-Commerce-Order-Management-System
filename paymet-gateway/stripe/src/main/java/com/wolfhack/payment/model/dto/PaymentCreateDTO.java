@@ -18,10 +18,14 @@ import java.io.Serializable;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PaymentCreateDTO implements Serializable {
 
+
+	@JsonProperty("user_id")
+	Long userId;
+
 	@Valid
 	@NotNull
-	@JsonProperty("user")
-	CustomerCreateDTO user;
+	@JsonProperty("payment_method")
+	PaymentMethodCreateDTO paymentMethod;
 
 	@Min(0)
 	@NotNull

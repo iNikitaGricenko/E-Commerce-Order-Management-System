@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Value;
+import org.hibernate.validator.constraints.CreditCardNumber;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -29,4 +30,35 @@ public class PaymentMethodCreateDTO implements Serializable {
 	@NotBlank
 	@JsonProperty("expiration_date")
 	LocalDate expirationDate;
+
+	@NotEmpty
+	@NotNull
+	@NotBlank
+	@CreditCardNumber
+	@JsonProperty("card_number")
+	String cardNumber;
+
+	@NotEmpty
+	@NotNull
+	@NotBlank
+	@JsonProperty("cardholder_name")
+	String cardHolderName;
+
+	@NotEmpty
+	@NotNull
+	@NotBlank
+	@JsonProperty("card_type")
+	String cardType;
+
+	@NotEmpty
+	@NotNull
+	@NotBlank
+	@JsonProperty("card_last4_digits")
+	String cardLast4Digits;
+
+	@NotEmpty
+	@NotNull
+	@NotBlank
+	@JsonProperty("billing_address")
+	String billingAddress;
 }
