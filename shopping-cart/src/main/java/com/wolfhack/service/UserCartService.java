@@ -3,9 +3,13 @@ package com.wolfhack.service;
 import com.wolfhack.adapter.database.CartItemDatabaseAdapter;
 import com.wolfhack.adapter.database.UserCartDatabaseAdapter;
 import com.wolfhack.client.InventoryClient;
+import com.wolfhack.client.UserClient;
+import com.wolfhack.exception.NotFoundException;
 import com.wolfhack.mapper.CartItemMapper;
 import com.wolfhack.mapper.UserCartMapper;
+import com.wolfhack.model.domain.CartItem;
 import com.wolfhack.model.domain.UserCart;
+import com.wolfhack.model.dto.ProductInventoryResponseDTO;
 import com.wolfhack.model.entity.CartItemResponseDTO;
 import com.wolfhack.model.entity.UserCartResponseDTO;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +28,7 @@ public class UserCartService {
 	private final CartItemMapper cartItemMapper;
 
 	private final InventoryClient inventoryClient;
+	private final UserClient userClient;
 
 	public UserCartResponseDTO getUserCart(Long userId) {
 		UserCart userCart = userCartDatabaseAdapter.getByUser(userId);
@@ -35,6 +40,21 @@ public class UserCartService {
 		return response;
 	}
 
-	// TODO add products from inventory to cart. Only if available in inventory
+	public long addProduct(Long userId, CartItem model) {
+		UserCart userCart = userCartDatabaseAdapter.getByUser(userId);
+		ProductInventoryResponseDTO inventory = inventoryClient.getInventoryByProductId(model.getProductId());
+
+		if (inventory == null) {
+			throw new NotFoundException("Product does not exist or not available");
+		}
+
+		CartItem cartItem = new CartItem();
+		cartItem.setCartId(userCart.getId());
+		cartItem.setProductId(model.getProductId());
+		cartItem.setQuantity(model.getQuantity());
+		cartItem.setUnitPrice(inventory.getProduct().getUnitPrice());
+
+		return cartItemDatabaseAdapter.save(cartItem);
+	}
 
 }

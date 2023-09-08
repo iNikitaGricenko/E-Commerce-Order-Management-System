@@ -1,6 +1,7 @@
 package com.wolfhack.mapper;
 
 import com.wolfhack.model.domain.CartItem;
+import com.wolfhack.model.dto.CartItemAddDTO;
 import com.wolfhack.model.entity.CartItemEntity;
 import com.wolfhack.model.entity.CartItemResponseDTO;
 import org.mapstruct.*;
@@ -13,9 +14,12 @@ public interface CartItemMapper {
 
 	CartItemResponseDTO toResponse(CartItem cartItem);
 
+	CartItem toModel(CartItemAddDTO cartItemAddDTO);
+
 	@BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 	CartItemEntity partialUpdate(CartItem from, @MappingTarget CartItemEntity to);
 
 	@BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.SET_TO_NULL)
 	CartItemEntity update(CartItem from, @MappingTarget CartItemEntity to);
+
 }
