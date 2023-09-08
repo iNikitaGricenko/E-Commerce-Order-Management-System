@@ -1,10 +1,10 @@
 package com.wolfhack.payment.exception.handler;
 
-import com.wolfhack.exception.BadRequestException;
-import com.wolfhack.exception.ForbiddenException;
-import com.wolfhack.exception.NotFoundException;
-import com.wolfhack.exception.error.ErrorBody;
-import com.wolfhack.exception.error.ValidationErrorBody;
+import com.wolfhack.payment.exception.BadRequestException;
+import com.wolfhack.payment.exception.ForbiddenException;
+import com.wolfhack.payment.exception.NotFoundException;
+import com.wolfhack.payment.exception.error.ErrorBody;
+import com.wolfhack.payment.exception.error.ValidationErrorBody;
 import jakarta.validation.ValidationException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
