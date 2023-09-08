@@ -1,4 +1,4 @@
-package com.wolfhack.mapper;
+package com.wolfhack.client;
 
 public interface PaymentClient {
 }

@@ -10,12 +10,10 @@ import com.wolfhack.wrapper.DomainPage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
 
-@Service
 @RequiredArgsConstructor
 public class CategoryDatabaseGateway implements CategoryDatabaseAdapter {
 

@@ -14,6 +14,7 @@ public class UserLoginResponseDTO implements Serializable {
 	Long id;
 	String username;
 	String email;
+	String phoneNumber;
 	Role role;
 	LocalDate lastLoginDate;
 }

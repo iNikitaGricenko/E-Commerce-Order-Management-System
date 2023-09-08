@@ -27,6 +27,7 @@
         <module>payment-processing</module>
         <module>security</module>
         <module>discovery</module>
+        <module>paymet-gateway</module>
     </modules>
 
     <properties>

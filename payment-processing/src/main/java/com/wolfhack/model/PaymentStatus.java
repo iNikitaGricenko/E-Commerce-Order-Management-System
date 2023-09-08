@@ -1,0 +1,12 @@
+package com.wolfhack.model;
+
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@Getter
+@RequiredArgsConstructor
+public enum PaymentStatus {
+
+	PENDING, SUCCESSFUL, FAILED, RETURNED;
+
+}
