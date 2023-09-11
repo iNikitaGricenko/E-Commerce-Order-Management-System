@@ -2,6 +2,7 @@ package com.wolfhack.model.domain;
 
 import com.wolfhack.model.PaymentMethod;
 import com.wolfhack.model.PaymentStatus;
+import com.wolfhack.model.dto.PaymentCreationDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,5 +28,14 @@ public class PaymentTransaction implements Serializable, DomainModel {
 	public void create() {
 		this.createdDate = LocalDate.now();
 		this.paymentStatus = PaymentStatus.PENDING;
+	}
+
+	public PaymentCreationDTO toDto() {
+		return PaymentCreationDTO.builder()
+				.userId(userId)
+				.orderId(orderId)
+				.paymentAmount(paymentAmount)
+				.paymentDetails(paymentDetails)
+				.build();
 	}
 }
