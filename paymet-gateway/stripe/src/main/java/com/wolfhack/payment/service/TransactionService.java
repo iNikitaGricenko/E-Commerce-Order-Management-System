@@ -17,12 +17,11 @@ public class TransactionService {
 	private final CustomerDatabaseAdapter customerDatabaseAdapter;
 
 	public long create(PaymentCreateDTO paymentCreateDTO) {
-		CustomerCreateDTO user = paymentCreateDTO.getUser();
-		CustomerInformation customerInformation = customerDatabaseAdapter.getById(user.getUserId());
+		CustomerInformation customerInformation = customerDatabaseAdapter.getById(paymentCreateDTO.getUserId());
 
-		PaymentMethodCreateDTO paymentMethod = user.getPaymentMethod();
+		PaymentMethodCreateDTO paymentMethod = paymentCreateDTO.getPaymentMethod();
 
-		Customer customer = customerService.create(user);
+		Long paymentTransactionId = customerService.create(paymentCreateDTO);
 
 		return 0;
 	}

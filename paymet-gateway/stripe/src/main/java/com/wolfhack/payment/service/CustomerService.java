@@ -1,16 +1,16 @@
 package com.wolfhack.payment.service;
 
 import com.stripe.exception.StripeException;
+import com.stripe.model.Charge;
 import com.stripe.model.Customer;
-import com.stripe.param.CustomerCreateParams;
-import com.stripe.param.PaymentMethodAttachParams;
-import com.stripe.param.PaymentMethodCreateParams;
-import com.stripe.param.PaymentSourceCollectionCreateParams;
+import com.stripe.param.*;
 import com.wolfhack.payment.adapter.database.CustomerDatabaseAdapter;
 import com.wolfhack.payment.adapter.database.PaymentMethodDatabaseAdapter;
+import com.wolfhack.payment.adapter.database.PaymentTransactionDatabaseAdapter;
 import com.wolfhack.payment.client.UserClient;
 import com.wolfhack.payment.model.domain.CustomerInformation;
 import com.wolfhack.payment.model.domain.PaymentMethod;
+import com.wolfhack.payment.model.domain.PaymentTransaction;
 import com.wolfhack.payment.model.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,10 +24,33 @@ public class CustomerService {
 	private final UserClient userClient;
 	private final CustomerDatabaseAdapter customerDatabaseAdapter;
 	private final PaymentMethodDatabaseAdapter paymentMethodDatabaseAdapter;
+	private final PaymentTransactionDatabaseAdapter paymentTransactionDatabaseAdapter;
 
-	public Customer create(PaymentCreateDTO paymentCreateDTO) {
+	public Long create(PaymentCreateDTO paymentCreateDTO) {
 		CustomerInformation customerInformation = customerDatabaseAdapter.getByUserId(paymentCreateDTO.getUserId());
-		return addPaymentMethod(customerInformation, paymentCreateDTO.getPaymentMethod());
+		Customer customer = addPaymentMethod(customerInformation, paymentCreateDTO.getPaymentMethod());
+
+		ChargeCreateParams customerCreateParams = ChargeCreateParams.builder()
+				.setCustomer(customerInformation.getReference())
+				.setAmount(paymentCreateDTO.getPaymentAmount())
+				.setCapture(true)
+				.build();
+
+		try {
+			String chargeReference = Charge.create(customerCreateParams).getId();
+
+			PaymentTransaction paymentTransaction = new PaymentTransaction();
+			paymentTransaction.setCreatedDate(LocalDate.now());
+			paymentTransaction.setPaymentAmount(paymentCreateDTO.getPaymentAmount());
+			paymentTransaction.setPaymentMethod(customerInformation.getPaymentMethodId());
+			paymentTransaction.setOrderId(paymentCreateDTO.getOrderId());
+			paymentTransaction.setTransactionDate(LocalDate.now());
+			paymentTransaction.setPaymentReference(chargeReference);
+
+			return paymentTransactionDatabaseAdapter.save(paymentTransaction);
+		} catch (StripeException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	public void createCustomer(UserRegisteredNotificationDTO userRegistered) {
