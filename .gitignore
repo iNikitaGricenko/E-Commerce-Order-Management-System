@@ -39,3 +39,4 @@ mvnw
 mvnw.cmd
 **/src/main/resources/firebase-service-account.json
 **/src/main/resources/google-email.json
+**/src/main/resources/mastercard.json

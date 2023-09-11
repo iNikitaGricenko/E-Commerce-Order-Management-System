@@ -15,6 +15,7 @@
     <modules>
         <module>stripe</module>
         <module>paypal</module>
+        <module>mastercard</module>
     </modules>
 
     <properties>

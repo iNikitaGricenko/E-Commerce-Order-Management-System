@@ -1,9 +1,7 @@
 package com.wolfhack.payment.service;
 
-import com.stripe.model.Customer;
 import com.wolfhack.payment.adapter.database.CustomerDatabaseAdapter;
 import com.wolfhack.payment.model.domain.CustomerInformation;
-import com.wolfhack.payment.model.dto.CustomerCreateDTO;
 import com.wolfhack.payment.model.dto.PaymentCreateDTO;
 import com.wolfhack.payment.model.dto.PaymentMethodCreateDTO;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +21,7 @@ public class TransactionService {
 
 		Long paymentTransactionId = customerService.create(paymentCreateDTO);
 
-		return 0;
+		return paymentTransactionId;
 	}
 
 }

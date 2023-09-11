@@ -1,5 +1,6 @@
 package com.wolfhack.model.domain;
 
+import com.wolfhack.model.PaymentMethod;
 import com.wolfhack.model.PaymentStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,9 +9,6 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-/**
- * DTO for {@link com.wolfhack.model.entity.PaymentTransactionEntity}
- */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,8 +19,13 @@ public class PaymentTransaction implements Serializable, DomainModel {
 	private PaymentStatus paymentStatus;
 	private LocalDate paymentDate;
 	private long paymentAmount;
-	private String paymentMethod;
+	private PaymentMethod paymentMethod;
 	private String paymentDetails;
 	private LocalDate createdDate;
 	private LocalDate updatedDate;
+
+	public void create() {
+		this.createdDate = LocalDate.now();
+		this.paymentStatus = PaymentStatus.PENDING;
+	}
 }

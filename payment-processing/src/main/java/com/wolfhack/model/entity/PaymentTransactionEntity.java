@@ -1,5 +1,6 @@
 package com.wolfhack.model.entity;
 
+import com.wolfhack.model.PaymentMethod;
 import com.wolfhack.model.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.*;
@@ -8,6 +9,9 @@ import org.hibernate.proxy.HibernateProxy;
 import java.time.LocalDate;
 import java.util.Objects;
 
+/**
+ * Entity for {@link com.wolfhack.model.domain.PaymentTransaction}
+ */
 @Getter
 @Setter
 @ToString
@@ -37,7 +41,8 @@ public class PaymentTransactionEntity {
 	private long paymentAmount;
 
 	@Column(name = "payment_method")
-	private String paymentMethod;
+	@Enumerated(EnumType.STRING)
+	private PaymentMethod paymentMethod;
 
 	@Column(name = "payment_details")
 	private String paymentDetails;
