@@ -27,7 +27,7 @@ public class CommunityPassPaymentConfig {
 
 	private final MastercardProperties mastercardProperties;
 
-	@Bean("mastercard")
+	@Bean("mastercardPrivateKey")
 	public PrivateKey signInKey(MastercardConfig mastercardConfig) throws UnrecoverableKeyException, CertificateException, IOException, KeyStoreException, NoSuchAlgorithmException {
 		String filePath = mastercardConfig.getSigningKeyFilePath();
 		String keyAlias = mastercardConfig.getSigningKeyAlias();
@@ -36,7 +36,7 @@ public class CommunityPassPaymentConfig {
 		return AuthenticationUtils.loadSigningKey(filePath, keyAlias, keyPassword);
 	}
 
-	@Bean
+	@Bean("mastercardCertificate")
 	public Certificate getMastercardCertificate(MastercardConfig mastercardConfig) throws FileNotFoundException, CertificateException {
 		return EncryptionUtils.loadEncryptionCertificate(mastercardConfig.getEncryptionCertPath());
 	}
