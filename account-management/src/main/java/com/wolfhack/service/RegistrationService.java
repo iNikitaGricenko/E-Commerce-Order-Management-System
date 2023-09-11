@@ -2,6 +2,7 @@ package com.wolfhack.service;
 
 import com.wolfhack.adapter.database.PasswordResetRequestDatabaseAdapter;
 import com.wolfhack.adapter.database.UserDatabaseAdapter;
+import com.wolfhack.logging.annotations.AOPLogging;
 import com.wolfhack.model.domain.PasswordResetRequest;
 import com.wolfhack.model.domain.User;
 import com.wolfhack.model.dto.UserRegisteredNotificationDTO;
@@ -17,6 +18,7 @@ public class RegistrationService {
 	private final PasswordResetRequestDatabaseAdapter passwordResetRequestDatabaseAdapter;
 	private final NotificationSender notificationSender;
 
+	@AOPLogging
 	public long register(User user) {
 		user.register(pbkdf2Encoder);
 		Long userId = userDatabaseAdapter.save(user);
@@ -28,7 +30,8 @@ public class RegistrationService {
 		} finally {
 			UserRegisteredNotificationDTO notificationDTO = new UserRegisteredNotificationDTO(
 					user.getId(), user.getEmail(), user.getFirstName(),
-					user.getLastName(), user.getBirthDate(), user.getAddress());
+					user.getLastName(), user.getBirthDate(), user.getAddress(),
+					user.getPhoneNumber());
 
 			notificationSender.sendRegistration(notificationDTO);
 		}

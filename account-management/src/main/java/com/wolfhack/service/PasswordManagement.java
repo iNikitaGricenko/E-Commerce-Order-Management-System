@@ -4,6 +4,7 @@ import com.wolfhack.adapter.database.PasswordResetRequestDatabaseAdapter;
 import com.wolfhack.adapter.database.UserDatabaseAdapter;
 import com.wolfhack.exception.BadRequestException;
 import com.wolfhack.exception.ForbiddenException;
+import com.wolfhack.logging.annotations.AOPLogging;
 import com.wolfhack.model.domain.PasswordResetRequest;
 import com.wolfhack.model.domain.User;
 import com.wolfhack.model.dto.UserResetNotificationDTO;
@@ -19,6 +20,7 @@ public class PasswordManagement {
 	private final UserDatabaseAdapter userDatabaseAdapter;
 	private final PasswordResetRequestDatabaseAdapter passwordResetRequestDatabaseAdapter;
 
+	@AOPLogging
 	public void resetPasswordRequest(String email) {
 		User user = userDatabaseAdapter.getByEmail(email);
 		PasswordResetRequest resetRequest = passwordResetRequestDatabaseAdapter.getByUserId(user.getId());
@@ -30,6 +32,7 @@ public class PasswordManagement {
 		notificationSender.sendReset(notificationDTO);
 	}
 
+	@AOPLogging
 	public void changePassword(String token, String password) {
 		PasswordResetRequest resetRequest = passwordResetRequestDatabaseAdapter.getByToken(token);
 		Long userId = resetRequest.getUserId();

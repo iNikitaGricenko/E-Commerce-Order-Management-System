@@ -2,6 +2,7 @@ package com.wolfhack.persistence;
 
 import com.wolfhack.adapter.database.PasswordResetRequestDatabaseAdapter;
 import com.wolfhack.exception.NotFoundException;
+import com.wolfhack.logging.annotations.DatabaseOperation;
 import com.wolfhack.mapper.PasswordResetRequestMapper;
 import com.wolfhack.model.domain.PasswordResetRequest;
 import com.wolfhack.model.entity.PasswordResetRequestEntity;
@@ -23,6 +24,7 @@ public class PasswordResetRequestDatabaseGateway implements PasswordResetRequest
 	private final PasswordResetRequestMapper passwordResetRequestMapper;
 
 	@Override
+	@DatabaseOperation
 	public Long save(PasswordResetRequest model) {
 		PasswordResetRequestEntity entity = passwordResetRequestMapper.toEntity(model);
 
@@ -30,6 +32,7 @@ public class PasswordResetRequestDatabaseGateway implements PasswordResetRequest
 	}
 
 	@Override
+	@DatabaseOperation
 	public Long partialUpdate(Long id, PasswordResetRequest model) {
 		PasswordResetRequestEntity updated = passwordResetRequestRepository.findById(id)
 				.map(entity -> passwordResetRequestMapper.partialUpdate(model, entity))
@@ -39,6 +42,7 @@ public class PasswordResetRequestDatabaseGateway implements PasswordResetRequest
 	}
 
 	@Override
+	@DatabaseOperation
 	public Long update(Long id, PasswordResetRequest model) {
 		if (!exists(id)) {
 			throw new NotFoundException("Password reset request does not exist");
@@ -49,6 +53,7 @@ public class PasswordResetRequestDatabaseGateway implements PasswordResetRequest
 	}
 
 	@Override
+	@DatabaseOperation
 	public PasswordResetRequest getById(Long id) {
 		return passwordResetRequestRepository.findById(id)
 				.map(passwordResetRequestMapper::toModel)
@@ -56,11 +61,13 @@ public class PasswordResetRequestDatabaseGateway implements PasswordResetRequest
 	}
 
 	@Override
+	@DatabaseOperation
 	public boolean exists(Long id) {
 		return passwordResetRequestRepository.existsById(id);
 	}
 
 	@Override
+	@DatabaseOperation
 	public Collection<PasswordResetRequest> getById(Collection<Long> ids) {
 		return passwordResetRequestRepository.findAllById(ids).stream()
 				.map(passwordResetRequestMapper::toModel)
@@ -68,12 +75,14 @@ public class PasswordResetRequestDatabaseGateway implements PasswordResetRequest
 	}
 
 	@Override
+	@DatabaseOperation
 	public List<PasswordResetRequest> getAll() {
 		return passwordResetRequestRepository.findAll().stream()
 				.map(passwordResetRequestMapper::toModel).toList();
 	}
 
 	@Override
+	@DatabaseOperation
 	public DomainPage<PasswordResetRequest> getPage(Pageable pageable) {
 		Page<PasswordResetRequest> page = passwordResetRequestRepository.findAll(pageable)
 				.map(passwordResetRequestMapper::toModel);
@@ -82,11 +91,13 @@ public class PasswordResetRequestDatabaseGateway implements PasswordResetRequest
 	}
 
 	@Override
+	@DatabaseOperation
 	public void delete(Long id) {
 		passwordResetRequestRepository.deleteById(id);
 	}
 
 	@Override
+	@DatabaseOperation
 	public PasswordResetRequest getByToken(String token) {
 		return passwordResetRequestRepository.findByResetToken(token)
 				.map(passwordResetRequestMapper::toModel)
@@ -94,6 +105,7 @@ public class PasswordResetRequestDatabaseGateway implements PasswordResetRequest
 	}
 
 	@Override
+	@DatabaseOperation
 	public PasswordResetRequest getByUserId(Long id) {
 		return passwordResetRequestRepository.findByUserId(id)
 				.map(passwordResetRequestMapper::toModel)

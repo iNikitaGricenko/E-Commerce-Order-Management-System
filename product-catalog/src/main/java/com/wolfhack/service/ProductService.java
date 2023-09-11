@@ -6,6 +6,7 @@ import com.wolfhack.adapter.database.ProductDatabaseAdapter;
 import com.wolfhack.adapter.database.RelatedProductDatabaseAdapter;
 import com.wolfhack.config.KafkaTopics;
 import com.wolfhack.exception.NotFoundException;
+import com.wolfhack.logging.annotations.AOPLogging;
 import com.wolfhack.model.domain.EventLog;
 import com.wolfhack.model.domain.Product;
 import com.wolfhack.model.domain.RelatedProduct;
@@ -33,6 +34,7 @@ public class ProductService {
 	private final KafkaTemplate<String, ProductAddedDTO> kafkaAddedTemplate;
 	private final KafkaTemplate<String, Long> kafkaRemovedTemplate;
 
+	@AOPLogging
 	public long addProduct(Product product) {
 		Long productId = productDatabaseAdapter.save(product);
 		try {
@@ -42,10 +44,12 @@ public class ProductService {
 		}
 	}
 
+	@AOPLogging
 	public Product get(Long productId) {
 		return productDatabaseAdapter.getById(productId);
 	}
 
+	@AOPLogging
 	public void assignCategory(Long productId, Long categoryId) {
 		if (!productDatabaseAdapter.exists(productId)) {
 			throw new NotFoundException("Product does not exist");
@@ -60,6 +64,7 @@ public class ProductService {
 		productDatabaseAdapter.partialUpdate(productId, product);
 	}
 
+	@AOPLogging
 	public void addRelatedProduct(Long productId, List<Long> relatedProductIds) {
 		if (!productDatabaseAdapter.exists(productId)) {
 			throw new NotFoundException("Product does not exist");
@@ -73,6 +78,7 @@ public class ProductService {
 		}).forEach(relatedProductDatabaseAdapter::save);
 	}
 
+	@AOPLogging
 	public void removeProduct(Long productId) {
 		productDatabaseAdapter.delete(productId);
 		EventLog eventLog = new EventLog();
@@ -84,6 +90,7 @@ public class ProductService {
 	}
 
 	@Async
+	@AOPLogging
 	protected void addToInventory(Product product, Long productId) {
 		EventLog eventLog = new EventLog();
 		eventLog.productCreated(productId, product.getStockQuantity());

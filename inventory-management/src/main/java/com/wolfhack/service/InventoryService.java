@@ -2,6 +2,7 @@ package com.wolfhack.service;
 
 import com.wolfhack.adapter.database.InventoryDatabaseAdapter;
 import com.wolfhack.client.ProductClient;
+import com.wolfhack.logging.annotations.AOPLogging;
 import com.wolfhack.mapper.ProductInventoryMapper;
 import com.wolfhack.model.domain.ProductInventory;
 import com.wolfhack.model.dto.ProductFullResponseDTO;
@@ -17,6 +18,7 @@ public class InventoryService {
 	private final ProductInventoryMapper productInventoryMapper;
 	private final ProductClient productClient;
 
+	@AOPLogging
 	public ProductInventoryResponseDTO getInventory(Long inventoryId) {
 		ProductInventory productInventory = inventoryDatabaseAdapter.getById(inventoryId);
 		ProductFullResponseDTO product = productClient.getProduct(productInventory.getProductId());
@@ -26,6 +28,7 @@ public class InventoryService {
 		return response;
 	}
 
+	@AOPLogging
 	public ProductInventoryResponseDTO getInventoryByProduct(Long productId) {
 		ProductInventory productInventory = inventoryDatabaseAdapter.getByProductId(productId);
 		ProductFullResponseDTO product = productClient.getProduct(productInventory.getProductId());

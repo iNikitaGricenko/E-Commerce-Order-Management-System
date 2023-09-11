@@ -1,6 +1,7 @@
 package com.wolfhack.service;
 
 import com.wolfhack.config.KafkaTopics;
+import com.wolfhack.logging.annotations.AOPLogging;
 import com.wolfhack.model.domain.User;
 import com.wolfhack.model.dto.UserRegisteredNotificationDTO;
 import com.wolfhack.model.dto.UserResetNotificationDTO;
@@ -23,6 +24,7 @@ public class NotificationSender {
 	private final KafkaTemplate<String, User> kafkaResetTemplate;
 
 	@Async
+	@AOPLogging
 	public void sendRegistration(UserRegisteredNotificationDTO user) {
 		Message<UserRegisteredNotificationDTO> message = MessageBuilder.withPayload(user)
 				.setHeader(KafkaHeaders.TOPIC, kafkaTopics.get("register").topic())
@@ -32,6 +34,7 @@ public class NotificationSender {
 	}
 
 	@Async
+	@AOPLogging
 	public void sendReset(UserResetNotificationDTO user) {
 		Message<UserResetNotificationDTO> message = MessageBuilder.withPayload(user)
 				.setHeader(KafkaHeaders.TOPIC, kafkaTopics.get("reset").topic())

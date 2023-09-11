@@ -3,6 +3,7 @@ package com.wolfhack.service;
 import com.wolfhack.adapter.database.ProductDatabaseAdapter;
 import com.wolfhack.adapter.database.ProductImageDatabaseAdapter;
 import com.wolfhack.exception.NotFoundException;
+import com.wolfhack.logging.annotations.AOPLogging;
 import com.wolfhack.model.domain.ProductImage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ public class ProductImageService {
 		return productImageDatabaseAdapter.save(productImage);
 	}
 
+	@AOPLogging
 	public List<ProductImage> getByProductId(Long productId) {
 		if (!productDatabaseAdapter.exists(productId)) {
 			throw new NotFoundException("Product does not exist");

@@ -4,6 +4,7 @@ import com.wolfhack.adapter.database.UserDatabaseAdapter;
 import com.wolfhack.adapter.database.UserTokenDatabaseAdapter;
 import com.wolfhack.exception.ForbiddenException;
 import com.wolfhack.exception.NotFoundException;
+import com.wolfhack.logging.annotations.AOPLogging;
 import com.wolfhack.model.domain.User;
 import com.wolfhack.model.domain.UserToken;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ public class ProfileManagement {
 	private final UserDatabaseAdapter userDatabaseGateway;
 	private final UserTokenDatabaseAdapter userTokenDatabaseAdapter;
 
+	@AOPLogging
 	public void login(String username, String password) {
 		User user = userDatabaseGateway.getByUsername(username);
 
@@ -31,6 +33,7 @@ public class ProfileManagement {
 		return userTokenDatabaseAdapter.getByToken(token);
 	}
 
+	@AOPLogging
 	public void setToken(Long userId, String token) {
 		if (userTokenDatabaseAdapter.existsByUserId(userId)) {
 			UserToken userToken = userTokenDatabaseAdapter.getByUserId(userId);
@@ -47,6 +50,7 @@ public class ProfileManagement {
 		userTokenDatabaseAdapter.save(userToken);
 	}
 
+	@AOPLogging
 	public void update(Long userId, User user) {
 		if (!userDatabaseGateway.exists(userId)) {
 			throw new NotFoundException("User does not exist");

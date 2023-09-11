@@ -5,6 +5,7 @@ import com.wolfhack.adapter.database.UserCartDatabaseAdapter;
 import com.wolfhack.client.InventoryClient;
 import com.wolfhack.client.UserClient;
 import com.wolfhack.exception.NotFoundException;
+import com.wolfhack.logging.annotations.AOPLogging;
 import com.wolfhack.mapper.CartItemMapper;
 import com.wolfhack.mapper.UserCartMapper;
 import com.wolfhack.model.domain.CartItem;
@@ -30,6 +31,7 @@ public class UserCartService {
 	private final InventoryClient inventoryClient;
 	private final UserClient userClient;
 
+	@AOPLogging
 	public UserCartResponseDTO getUserCart(Long userId) {
 		UserCart userCart = userCartDatabaseAdapter.getByUser(userId);
 		List<CartItemResponseDTO> cartItems = cartItemDatabaseAdapter.getByCartId(userCart.getId()).stream()
@@ -40,6 +42,7 @@ public class UserCartService {
 		return response;
 	}
 
+	@AOPLogging
 	public long addProduct(Long userId, CartItem model) {
 		UserCart userCart = userCartDatabaseAdapter.getByUser(userId);
 		ProductInventoryResponseDTO inventory = inventoryClient.getInventoryByProductId(model.getProductId());

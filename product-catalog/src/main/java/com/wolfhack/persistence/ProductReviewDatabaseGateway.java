@@ -2,6 +2,7 @@ package com.wolfhack.persistence;
 
 import com.wolfhack.adapter.database.ProductReviewDatabaseAdapter;
 import com.wolfhack.exception.NotFoundException;
+import com.wolfhack.logging.annotations.DatabaseOperation;
 import com.wolfhack.mapper.ProductReviewMapper;
 import com.wolfhack.model.domain.ProductReview;
 import com.wolfhack.model.entity.ProductReviewEntity;
@@ -22,12 +23,14 @@ public class ProductReviewDatabaseGateway implements ProductReviewDatabaseAdapte
 	private final ProductReviewMapper productReviewMapper;
 
 	@Override
+	@DatabaseOperation
 	public Long save(ProductReview model) {
 		ProductReviewEntity entity = productReviewMapper.toEntity(model);
 		return productReviewRepository.save(entity).getId();
 	}
 
 	@Override
+	@DatabaseOperation
 	public Long partialUpdate(Long id, ProductReview model) {
 		ProductReviewEntity updated = productReviewRepository.findById(id)
 				.map(categoryEntity -> productReviewMapper.partialUpdate(model, categoryEntity))
@@ -37,6 +40,7 @@ public class ProductReviewDatabaseGateway implements ProductReviewDatabaseAdapte
 	}
 
 	@Override
+	@DatabaseOperation
 	public Long update(Long id, ProductReview model) {
 		if (!exists(id)) {
 			throw new NotFoundException("Product does not exist");
@@ -47,37 +51,44 @@ public class ProductReviewDatabaseGateway implements ProductReviewDatabaseAdapte
 	}
 
 	@Override
+	@DatabaseOperation
 	public ProductReview getById(Long id) {
 		return productReviewRepository.findById(id).map(productReviewMapper::toModel).orElseThrow(NotFoundException::new);
 	}
 
 	@Override
+	@DatabaseOperation
 	public boolean exists(Long id) {
 		return productReviewRepository.existsById(id);
 	}
 
 	@Override
+	@DatabaseOperation
 	public Collection<ProductReview> getById(Collection<Long> ids) {
 		return productReviewRepository.findAllById(ids).stream().map(productReviewMapper::toModel).toList();
 	}
 
 	@Override
+	@DatabaseOperation
 	public List<ProductReview> getAll() {
 		return productReviewRepository.findAll().stream().map(productReviewMapper::toModel).toList();
 	}
 
 	@Override
+	@DatabaseOperation
 	public DomainPage<ProductReview> getPage(Pageable pageable) {
 		Page<ProductReview> page = productReviewRepository.findAll(pageable).map(productReviewMapper::toModel);
 		return new DomainPage<>(page);
 	}
 
 	@Override
+	@DatabaseOperation
 	public void delete(Long id) {
 		productReviewRepository.deleteById(id);
 	}
 
 	@Override
+	@DatabaseOperation
 	public List<ProductReview> getAllByProduct(Long productId) {
 		return productReviewRepository.findAllByProductId(productId).stream()
 				.map(productReviewMapper::toModel)

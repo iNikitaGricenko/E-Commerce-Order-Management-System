@@ -5,6 +5,7 @@ import com.wolfhack.adapter.database.ProductDatabaseAdapter;
 import com.wolfhack.adapter.database.ProductVariantDatabaseAdapter;
 import com.wolfhack.config.KafkaTopics;
 import com.wolfhack.exception.NotFoundException;
+import com.wolfhack.logging.annotations.AOPLogging;
 import com.wolfhack.model.domain.EventLog;
 import com.wolfhack.model.domain.Product;
 import com.wolfhack.model.domain.ProductVariant;
@@ -28,6 +29,7 @@ public class ProductVariantService {
 	private final Map<String, KafkaTopics> kafkaTopics;
 	private final KafkaTemplate<String, ProductVariantAddedDTO> kafkaVariantAddedTemplate;
 
+	@AOPLogging
 	public long addVariant(Long productId, ProductVariant productVariant) {
 		if (!productDatabaseAdapter.exists(productId)) {
 			throw new NotFoundException("Product does not exist");
@@ -42,6 +44,7 @@ public class ProductVariantService {
 		}
 	}
 
+	@AOPLogging
 	public List<ProductVariant> getByProductId(Long productId) {
 		if (!productDatabaseAdapter.exists(productId)) {
 			throw new NotFoundException("Product does not exist");
@@ -51,6 +54,7 @@ public class ProductVariantService {
 	}
 
 	@Async
+	@AOPLogging
 	protected void addToInventory(Long productId, ProductVariant productVariant, Long productVariantId) {
 		Product product = productDatabaseAdapter.getById(productId);
 		product.setStockQuantity(product.getStockQuantity() + productVariant.getVariantStockQuantity());

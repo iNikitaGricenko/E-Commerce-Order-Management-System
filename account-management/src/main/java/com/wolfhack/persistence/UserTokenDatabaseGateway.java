@@ -2,6 +2,7 @@ package com.wolfhack.persistence;
 
 import com.wolfhack.adapter.database.UserTokenDatabaseAdapter;
 import com.wolfhack.exception.NotFoundException;
+import com.wolfhack.logging.annotations.DatabaseOperation;
 import com.wolfhack.mapper.UserTokenMapper;
 import com.wolfhack.model.domain.UserToken;
 import com.wolfhack.model.entity.UserTokenEntity;
@@ -23,6 +24,7 @@ public class UserTokenDatabaseGateway implements UserTokenDatabaseAdapter {
 	private final UserTokenMapper userTokenMapper;
 
 	@Override
+	@DatabaseOperation
 	public Long save(UserToken model) {
 		UserTokenEntity entity = userTokenMapper.toEntity(model);
 
@@ -30,6 +32,7 @@ public class UserTokenDatabaseGateway implements UserTokenDatabaseAdapter {
 	}
 
 	@Override
+	@DatabaseOperation
 	public Long partialUpdate(Long id, UserToken model) {
 		UserTokenEntity updated = userTokenRepository.findById(id)
 				.map(userTokenEntity -> userTokenMapper.partialUpdate(model, userTokenEntity))
@@ -39,6 +42,7 @@ public class UserTokenDatabaseGateway implements UserTokenDatabaseAdapter {
 	}
 
 	@Override
+	@DatabaseOperation
 	public Long update(Long id, UserToken model) {
 		if (!exists(id)) {
 			throw new NotFoundException("User token does not exist");
@@ -49,47 +53,56 @@ public class UserTokenDatabaseGateway implements UserTokenDatabaseAdapter {
 	}
 
 	@Override
+	@DatabaseOperation
 	public UserToken getById(Long id) {
 		return userTokenRepository.findById(id).map(userTokenMapper::toModel).orElseThrow(NotFoundException::new);
 	}
 
 	@Override
+	@DatabaseOperation
 	public boolean exists(Long id) {
 		return userTokenRepository.existsById(id);
 	}
 
 	@Override
+	@DatabaseOperation
 	public Collection<UserToken> getById(Collection<Long> ids) {
 		return userTokenRepository.findAllById(ids).stream().map(userTokenMapper::toModel).toList();
 	}
 
 	@Override
+	@DatabaseOperation
 	public List<UserToken> getAll() {
 		return userTokenRepository.findAll().stream().map(userTokenMapper::toModel).toList();
 	}
 
 	@Override
+	@DatabaseOperation
 	public DomainPage<UserToken> getPage(Pageable pageable) {
 		Page<UserToken> page = userTokenRepository.findAll(pageable).map(userTokenMapper::toModel);
 		return new DomainPage<>(page);
 	}
 
 	@Override
+	@DatabaseOperation
 	public void delete(Long id) {
 		userTokenRepository.deleteById(id);
 	}
 
 	@Override
+	@DatabaseOperation
 	public UserToken getByToken(String token) {
 		return userTokenRepository.findByToken(token).map(userTokenMapper::toModel).orElseThrow(NotFoundException::new);
 	}
 
 	@Override
+	@DatabaseOperation
 	public UserToken getByUserId(Long id) {
 		return userTokenRepository.findByUserId(id).map(userTokenMapper::toModel).orElseThrow(NotFoundException::new);
 	}
 
 	@Override
+	@DatabaseOperation
 	public boolean existsByUserId(Long userId) {
 		return userTokenRepository.existsByUserId(userId);
 	}
