@@ -17,12 +17,4 @@ public class KafkaListenerConfig {
 		return factory;
 	}
 
-	@Bean
-	public ConcurrentKafkaListenerContainerFactory<String, Long> productRemovedListenerContainerFactory(
-			ConsumerFactory<String, Long> consumerFactory) {
-		ConcurrentKafkaListenerContainerFactory<String, Long> factory = new ConcurrentKafkaListenerContainerFactory<>();
-		factory.setConsumerFactory(consumerFactory);
-		return factory;
-	}
-
 }

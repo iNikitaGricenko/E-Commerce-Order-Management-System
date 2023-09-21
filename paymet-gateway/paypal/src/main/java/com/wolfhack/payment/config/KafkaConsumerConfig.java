@@ -21,9 +21,9 @@ public class KafkaConsumerConfig {
 	@Value("${spring.kafka.bootstrap-servers}") private String bootstrapServers;
 
 	@Bean
-	public ConsumerFactory<String, UserRegisteredNotificationDTO> userRegisteredConsumerFactory() {
+	public ConsumerFactory<String, Long> consumerFactory() {
 		Map<String, Object> properties = getDefaultConsumerFactoryProperties();
-		return new DefaultKafkaConsumerFactory<>(properties, new StringDeserializer(), new JsonDeserializer<>(UserRegisteredNotificationDTO.class));
+		return new DefaultKafkaConsumerFactory<>(properties, new StringDeserializer(), new JsonDeserializer<>(Long.class));
 	}
 
 	private Map<String, Object> getDefaultConsumerFactoryProperties() {
