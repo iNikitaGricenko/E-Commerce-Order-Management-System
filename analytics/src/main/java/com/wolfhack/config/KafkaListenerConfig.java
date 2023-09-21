@@ -1,7 +1,7 @@
 package com.wolfhack.config;
 
-import com.wolfhack.model.ProductAddedDTO;
-import com.wolfhack.model.UserRegisteredNotificationDTO;
+import com.wolfhack.model.dto.ProductAdded;
+import com.wolfhack.model.dto.UserRegistered;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
@@ -11,17 +11,17 @@ import org.springframework.kafka.core.ConsumerFactory;
 public class KafkaListenerConfig {
 
 	@Bean
-	public ConcurrentKafkaListenerContainerFactory<String, UserRegisteredNotificationDTO> userRegisterListenerContainerFactory(
-			ConsumerFactory<String, UserRegisteredNotificationDTO> consumerFactory) {
-		ConcurrentKafkaListenerContainerFactory<String, UserRegisteredNotificationDTO> factory = new ConcurrentKafkaListenerContainerFactory<>();
+	public ConcurrentKafkaListenerContainerFactory<String, UserRegistered> userRegisterListenerContainerFactory(
+			ConsumerFactory<String, UserRegistered> consumerFactory) {
+		ConcurrentKafkaListenerContainerFactory<String, UserRegistered> factory = new ConcurrentKafkaListenerContainerFactory<>();
 		factory.setConsumerFactory(consumerFactory);
 		return factory;
 	}
 
 	@Bean
-	public ConcurrentKafkaListenerContainerFactory<String, ProductAddedDTO> productAddedListenerContainerFactory(
-			ConsumerFactory<String, ProductAddedDTO> consumerFactory) {
-		ConcurrentKafkaListenerContainerFactory<String, ProductAddedDTO> factory = new ConcurrentKafkaListenerContainerFactory<>();
+	public ConcurrentKafkaListenerContainerFactory<String, ProductAdded> productAddedListenerContainerFactory(
+			ConsumerFactory<String, ProductAdded> consumerFactory) {
+		ConcurrentKafkaListenerContainerFactory<String, ProductAdded> factory = new ConcurrentKafkaListenerContainerFactory<>();
 		factory.setConsumerFactory(consumerFactory);
 		return factory;
 	}

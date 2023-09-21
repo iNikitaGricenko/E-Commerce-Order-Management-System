@@ -1,7 +1,7 @@
 package com.wolfhack.config;
 
-import com.wolfhack.model.ProductAddedDTO;
-import com.wolfhack.model.UserRegisteredNotificationDTO;
+import com.wolfhack.model.dto.ProductAdded;
+import com.wolfhack.model.dto.UserRegistered;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,15 +22,15 @@ public class KafkaConsumerConfig {
 	@Value("${spring.kafka.bootstrap-servers}") private String bootstrapServers;
 
 	@Bean
-	public ConsumerFactory<String, UserRegisteredNotificationDTO> userRegisteredConsumerFactory() {
+	public ConsumerFactory<String, UserRegistered> userRegisteredConsumerFactory() {
 		Map<String, Object> properties = getDefaultConsumerFactoryProperties();
-		return new DefaultKafkaConsumerFactory<>(properties, new StringDeserializer(), new JsonDeserializer<>(UserRegisteredNotificationDTO.class));
+		return new DefaultKafkaConsumerFactory<>(properties, new StringDeserializer(), new JsonDeserializer<>(UserRegistered.class));
 	}
 
 	@Bean
-	public ConsumerFactory<String, ProductAddedDTO> productAddedConsumerFactory() {
+	public ConsumerFactory<String, ProductAdded> productAddedConsumerFactory() {
 		Map<String, Object> properties = getDefaultConsumerFactoryProperties();
-		return new DefaultKafkaConsumerFactory<>(properties, new StringDeserializer(), new JsonDeserializer<>(ProductAddedDTO.class));
+		return new DefaultKafkaConsumerFactory<>(properties, new StringDeserializer(), new JsonDeserializer<>(ProductAdded.class));
 	}
 
 	@Bean
