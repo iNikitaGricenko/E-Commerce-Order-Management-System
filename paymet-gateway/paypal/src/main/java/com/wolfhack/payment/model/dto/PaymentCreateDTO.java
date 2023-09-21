@@ -20,8 +20,8 @@ public class PaymentCreateDTO implements Serializable {
 
 	@Valid
 	@NotNull
-	@JsonProperty("payment_method")
-	PaymentMethodCreateDTO paymentMethod;
+	@JsonProperty("payment_currency_code")
+	String currencyCode;
 
 	@Min(0)
 	@NotNull
