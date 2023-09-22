@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class ErrorLog implements Serializable, DomainModel {
 	private Long id;
-	private Long transactionId;
+	private String transactionId;
 	private String errorMessage;
 	private int errorCode;
 	private LocalDate errorDate;

@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class PaymentLog implements Serializable, DomainModel {
 	private Long id;
-	private Long transactionId;
+	private String transactionId;
 	private String requestPayload;
 	private String responsePayload;
 	private LocalDate logDate;

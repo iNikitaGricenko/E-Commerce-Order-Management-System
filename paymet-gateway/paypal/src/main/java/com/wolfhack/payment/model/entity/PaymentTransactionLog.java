@@ -39,9 +39,6 @@ public class PaymentTransactionLog {
 	@Column(name = "payment_status")
 	private PaymentStatus paymentStatus;
 
-	@Column(name = "payment_method")
-	private Long paymentMethod;
-
 	@Column(name = "transaction_date")
 	private LocalDate transactionDate;
 

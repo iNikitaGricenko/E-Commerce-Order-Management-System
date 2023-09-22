@@ -28,7 +28,7 @@ public class PaymentLogEntity {
 	private Long id;
 
 	@Column(name = "transaction_id")
-	private Long transactionId;
+	private String transactionId;
 
 	@Column(name = "request_payload")
 	private String requestPayload;

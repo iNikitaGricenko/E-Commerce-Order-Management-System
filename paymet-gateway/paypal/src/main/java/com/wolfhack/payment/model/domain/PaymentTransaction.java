@@ -17,7 +17,6 @@ public class PaymentTransaction implements Serializable, DomainModel {
 	private Long orderId;
 	private long paymentAmount;
 	private PaymentStatus paymentStatus;
-	private Long paymentMethod;
 	private LocalDate transactionDate;
 	private String paymentReference;
 	private LocalDate createdDate;

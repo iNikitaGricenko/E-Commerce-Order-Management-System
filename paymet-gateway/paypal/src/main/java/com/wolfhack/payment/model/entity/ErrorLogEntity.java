@@ -27,7 +27,7 @@ public class ErrorLogEntity {
 	private Long id;
 
 	@Column(name = "transaction_id")
-	private Long transactionId;
+	private String transactionId;
 
 	@Column(name = "error_message")
 	private String errorMessage;
